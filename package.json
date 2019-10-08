@@ -6,11 +6,18 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest --verbose",
+    "updateSnapshots": "jest --updateSnapshot"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/react-native-fontawesome": "^0.1.0",
     "react": "16.9.0",
-    "react-native": "0.61.2"
+    "react-dom": "^16.10.2",
+    "react-native": "0.61.2",
+    "react-native-svg": "^9.11.1",
+    "react-router-native": "^5.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
