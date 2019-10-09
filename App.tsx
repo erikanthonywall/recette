@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -11,6 +11,7 @@ import Header from './src/components/Header/Header';
 import RouteTransition from './src/components/RouteTransition/RouteTransition';
 
 import RecipeList from './src/components/RecipeList/RecipeList';
+import NewRecipe from './src/components/NewRecipe/NewRecipe';
 
 const styles = StyleSheet.create({
 	mainContent: {
@@ -34,17 +35,13 @@ const styles = StyleSheet.create({
 });
 
 const App = () => {
-	const [icon, setIcon] = useState('shopping');
-
-	const onPressHeaderButton = () => {
-		alert('hello');
-	}
-
 	return (
 		<>
 			<NativeRouter>
 				<BackButton />
+				
 				<StatusBar barStyle="light-content" />
+				
 				<View style={styles.mainContent}>
 					<Header />
 					
@@ -58,6 +55,12 @@ const App = () => {
 						<Route exact path="/shopping" render={() => {
 							return <RouteTransition backgroundColor="white">
 								<Text>Shopping</Text>
+							</RouteTransition>
+						}} />
+
+						<Route exact path="/newrecipe" render={() => {
+							return <RouteTransition backgroundColor="white">
+								<NewRecipe />
 							</RouteTransition>
 						}} />
 					</Switch>

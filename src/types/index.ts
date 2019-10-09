@@ -8,3 +8,8 @@ export interface IRecipe {
 	ingredients: Array<IIngredient>,
 	steps: Array<string>
 }
+
+export interface IResult {
+	success: boolean,
+	message: string
+}
