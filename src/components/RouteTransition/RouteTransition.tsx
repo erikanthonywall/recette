@@ -4,41 +4,39 @@ import { useLocation } from 'react-router-native';
 
 const RouteTransition = (props) => {
 	const [fadeAnimation, setFadeAnimation] = useState(new Animated.Value(0));
-	const [translateAnimation, setTranslateAnimation] = useState(new Animated.Value(50));
-	const [doneAnimating, setDoneAnimating] = useState(false);
+	const [translateAnimation, setTranslateAnimation] = useState(new Animated.Value(40));
+	const [animationFinished, setAnimationFinished] = useState(false);
 	const location = useLocation();
 
-	console.log('here');
-
 	React.useEffect(() => {
-		setDoneAnimating(false);
+		setAnimationFinished(false);
 		
 		Animated.parallel([
 			Animated.timing(
 				fadeAnimation,
 				{
 					toValue: 1,
-					duration: 600
+					duration: 400
 				}
 			),
 			Animated.timing(
 				translateAnimation,
 				{
 					toValue: 0,
-					duration: 600
+					duration: 400
 				}
 			)
 		]).start(() => {
-			setDoneAnimating(true);
 			setFadeAnimation(new Animated.Value(0));
 			setTranslateAnimation(new Animated.Value(50));
+			setAnimationFinished(true);
 		});
 	}, [location.pathname]);
 
 	return (
 		<Animated.View style={{
-			opacity: doneAnimating ? 1 : fadeAnimation,
-			transform: [{ translateX: translateAnimation }],
+			opacity: animationFinished ? 1 : fadeAnimation,
+			transform: [{ translateX: animationFinished ? 0 : translateAnimation }],
 			backgroundColor: props.backgroundColor,
 			flex: 1
 		}}>

@@ -23,13 +23,21 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 16
+		paddingLeft: 16,
+		paddingRight: 16,
+		paddingTop: 8
 	},
 
 	logo: {
 		fontFamily: 'IMFellFrenchCanon-Regular',
 		fontSize: 36,
 		color: 'rgba(0, 0, 0, 0.8)'
+	},
+
+	hr: {
+		backgroundColor: 'rgba(0, 0, 0, 0.4)',
+		marginTop: 4,
+		height: 1
 	}
 });
 
@@ -48,7 +56,7 @@ const Header = () => {
 	let redirect = location.pathname === '/shopping' ? '/' : '/shopping';
 
 	const onPress = () => {
-		history.push(redirect);
+		history.replace(redirect);
 
 		Animated.timing(
 			spinAnimation,
@@ -62,6 +70,7 @@ const Header = () => {
 	}
 
 	return (
+		<>
 		<View style={styles.header}>
 			<Text style={styles.logo}>Recette.</Text>
 			<Animated.View style={{ transform: [{ rotateX: spin }, { perspective: 1000 }] }}>
@@ -70,6 +79,8 @@ const Header = () => {
 				</TouchableHighlight>
 			</Animated.View>
 		</View>
+		<View style={styles.hr}></View>
+		</>
 	)
 }
 
