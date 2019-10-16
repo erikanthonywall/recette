@@ -8,16 +8,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { getRecipes } from '../../utils';
 
 import RecipeListItem from './RecipeListItem';
-import IconButton from '../IconButton/IconButton';
-import FloatingActionButton from  '../FloatingActionButton/FloatingActionButton';
+import IconButton from '../../components/IconButton/IconButton';
+import FloatingActionButton from  '../../components/FloatingActionButton/FloatingActionButton';
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1
+	},
+	
 	scrollview: {
-		padding: 8
+		padding: 8,
+		paddingBottom: 50,
+		marginBottom: 1,
+		flex: 1
 	},
 
 	searchBar: {
 		flexDirection: 'row',
+		marginLeft: 16,
+		marginRight: 16,
 		height: 40,
 		borderBottomWidth: 1,
 		borderBottomColor: 'rgba(0, 0, 0, 0.4)',
@@ -33,25 +42,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		flex: 1
-	},
-
-	container: {
-		flex: 1
-	},
-
-	newRecipeButtonTouchable: {
-		bottom: 16,
-		right: 16,
-		position: 'absolute',
-	},
-
-	newRecipeButton: {
-		height: 56,
-		width: 56,
-		borderRadius: 28,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: '#26c6da'
 	}
 });
 
@@ -94,7 +84,7 @@ const RecipeList = () => {
 		)
 	} else {
 		content = (
-			<ScrollView style={styles.scrollview}>
+			<>
 				<View style={styles.searchBar}>
 					<TextInput placeholder="Search..." style={styles.search} value={search} onChangeText={(text) => setSearch(text)} />
 					{
@@ -103,12 +93,17 @@ const RecipeList = () => {
 						: null
 					}
 				</View>
-				{
-					filteredRecipes.map((recipe, i) => (
-						<RecipeListItem name={recipe.name} key={i} />
-					))
-				}
-			</ScrollView>
+
+				<ScrollView style={styles.scrollview}>
+					{
+						filteredRecipes.map((recipe, i) => (
+							<RecipeListItem name={recipe.name} key={i} />
+						))
+					}
+
+					<View style={{ height: 100 }}></View>
+				</ScrollView>
+			</>
 		);
 	}
 

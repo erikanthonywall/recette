@@ -1,17 +1,18 @@
 import React from 'react';
 import {
-  StyleSheet,
-  View,
-  Text,
-  StatusBar,
+	StyleSheet,
+	View,
+	Text,
+	StatusBar,
 } from 'react-native';
 import { NativeRouter, Route, Switch, BackButton } from 'react-router-native';
 
 import Header from './src/components/Header/Header';
 import RouteTransition from './src/components/RouteTransition/RouteTransition';
 
-import RecipeList from './src/components/RecipeList/RecipeList';
-import NewRecipe from './src/components/NewRecipe/NewRecipe';
+import RecipeList from './src/scenes/RecipeList/RecipeList';
+import NewRecipe from './src/scenes/NewRecipe/NewRecipe';
+import Recipe from './src/scenes/Recipe/Recipe';
 
 const styles = StyleSheet.create({
 	mainContent: {
@@ -25,12 +26,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		padding: 16
-	},
-
-	logo: {
-		fontFamily: 'IMFellFrenchCanon-Regular',
-		fontSize: 36,
-		color: 'rgba(0, 0, 0, 0.8)'
 	}
 });
 
@@ -39,12 +34,12 @@ const App = () => {
 		<>
 			<NativeRouter>
 				<BackButton />
-				
+
 				<StatusBar barStyle="light-content" />
-				
+
 				<View style={styles.mainContent}>
 					<Header />
-					
+
 					<Switch>
 						<Route exact path="/" render={() => {
 							return <RouteTransition backgroundColor="white">
@@ -61,6 +56,12 @@ const App = () => {
 						<Route exact path="/newrecipe" render={() => {
 							return <RouteTransition backgroundColor="white">
 								<NewRecipe />
+							</RouteTransition>
+						}} />
+
+						<Route exact path="/recipe/:recipeId" render={() => {
+							return <RouteTransition backgroundColor="white">
+								<Recipe />
 							</RouteTransition>
 						}} />
 					</Switch>

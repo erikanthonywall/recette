@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useHistory } from 'react-router-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircle, faArrowRight, faCheck, faArrowLeft, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { IIngredient } from '../../types';
-import FloatingActionButton from '../FloatingActionButton/FloatingActionButton';
+import FloatingActionButton from '../../components/FloatingActionButton/FloatingActionButton';
 import { saveRecipe } from '../../utils';
+
+import globalStyles from '../../styles';
 
 const styles = StyleSheet.create({
 	container: {
@@ -46,9 +48,7 @@ const styles = StyleSheet.create({
 	},
 
 	ingredientItemText: {
-		fontFamily: 'IMFellFrenchCanon-Regular',
-		fontSize: 18,
-		color: 'rgba(0, 0, 0, 0.8)',
+		...globalStyles.body,
 		paddingTop: 4,
 		paddingBottom: 6
 	},
@@ -58,10 +58,8 @@ const styles = StyleSheet.create({
 	},
 
 	recipeStepsItemText: {
+		...globalStyles.body,
 		flex: 1,
-		fontFamily: 'IMFellFrenchCanon-Regular',
-		fontSize: 18,
-		color: 'rgba(0, 0, 0, 0.8)',
 		paddingTop: 4,
 		paddingBottom: 16
 	}
@@ -76,9 +74,8 @@ const NewRecipe = () => {
 	const [step, setStep] = useState<string>('');
 	const [recipeSteps, setRecipeSteps] = useState<Array<string>>([]);
 	const history = useHistory();
-
-	let ingredientNameInput;
-	let ingredientQuantityInput;
+	const ingredientNameInput = useRef(null);
+	const ingredientQuantityInput = useRef(null);
 
 	const addIngredientToList = () => {
 		setIngredientList([
@@ -91,7 +88,7 @@ const NewRecipe = () => {
 
 		setIngredientName('');
 		setQuantity('');
-		ingredientNameInput.focus();
+		ingredientNameInput.current.focus();
 	};
 
 	const removeIngredientFromList = (i : number) => {
@@ -154,15 +151,15 @@ const NewRecipe = () => {
 								placeholder="Ingredient name"
 								style={styles.textInput}
 								value={ingredient}
-								ref={(ref) => ingredientNameInput = ref}
+								ref={ingredientNameInput}
 								onChangeText={(text) => setIngredientName(text)}
-								onSubmitEditing={() => ingredientQuantityInput.focus()} />
+								onSubmitEditing={() => ingredientQuantityInput.current.focus()} />
 							
 							<TextInput
 								placeholder="Quantity"
 								style={styles.textInput}
 								value={quantity}
-								ref={(ref) => ingredientQuantityInput = ref}
+								ref={ingredientQuantityInput}
 								onChangeText={(text) => setQuantity(text)}
 								onSubmitEditing={addIngredientToList} />
 						</View>
@@ -213,7 +210,6 @@ const NewRecipe = () => {
 								style={styles.textInput}
 								value={step}
 								multiline
-								ref={(ref) => ingredientNameInput = ref}
 								onChangeText={(text) => setStep(text)}
 								onSubmitEditing={addStepToRecipe} />
 						</View>

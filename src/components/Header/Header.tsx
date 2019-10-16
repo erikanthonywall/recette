@@ -10,6 +10,8 @@ import { useHistory, useLocation } from 'react-router-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faShoppingBasket, faPizzaSlice } from '@fortawesome/free-solid-svg-icons';
 
+import globalStyles from '../../styles';
+
 const styles = StyleSheet.create({
 	button: {
 		width: 50,
@@ -26,12 +28,6 @@ const styles = StyleSheet.create({
 		paddingLeft: 16,
 		paddingRight: 16,
 		paddingTop: 8
-	},
-
-	logo: {
-		fontFamily: 'IMFellFrenchCanon-Regular',
-		fontSize: 36,
-		color: 'rgba(0, 0, 0, 0.8)'
 	},
 
 	hr: {
@@ -51,6 +47,16 @@ const Header = () => {
 		inputRange: [0, 1],
 		outputRange: ['0deg', '360deg']
 	});
+
+	let headerVisible = false;
+
+	if (location.pathname === '/' || location.pathname === '/shopping') {
+		headerVisible = true;
+	}
+
+	if (!headerVisible) {
+		return null;
+	}
 
 	let faIcon = location.pathname === '/shopping' ? faPizzaSlice : faShoppingBasket;
 	let redirect = location.pathname === '/shopping' ? '/' : '/shopping';
@@ -72,7 +78,7 @@ const Header = () => {
 	return (
 		<>
 		<View style={styles.header}>
-			<Text style={styles.logo}>Recette.</Text>
+			<Text style={globalStyles.header1}>Recette.</Text>
 			<Animated.View style={{ transform: [{ rotateX: spin }, { perspective: 1000 }] }}>
 				<TouchableHighlight style={styles.button} underlayColor="rgba(0, 0, 0, 0.4)" onPress={onPress}>
 					<FontAwesomeIcon icon={faIcon} color="rgba(0, 0, 0, 0.8)" size={24} />

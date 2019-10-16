@@ -16,14 +16,32 @@ export const getRecipes = async () : Promise<Array<IRecipe>> => {
 	}
 }
 
+export const getRecipeById = async (id) : Promise<IRecipe> => {
+	try {
+		const recipes = await getRecipes();
+
+		if (recipes && recipes.length) {
+			const recipe = _find(recipes, (r) => {
+				return convertRecipeNameToId(r.name) === id;
+			});
+
+			if (recipe) return recipe;
+		}
+
+		return null;
+	} catch {
+		return null;
+	}
+}
+
 export const saveRecipe = async (recipe : IRecipe) : Promise<IResult> => {
 	try {
 		let recipes = await getRecipes();
 
-		const id = convertRecipeNameToID(recipe.name);
+		const id = convertRecipeNameToId(recipe.name);
 
 		if (_find(recipes, (r => {
-			return convertRecipeNameToID(r.name) === id
+			return convertRecipeNameToId(r.name) === id
 		}))) {
 			return {
 				success: false,
@@ -50,6 +68,6 @@ export const saveRecipe = async (recipe : IRecipe) : Promise<IResult> => {
 	}
 }
 
-export const convertRecipeNameToID = (name: string) : string => {
+export const convertRecipeNameToId = (name: string) : string => {
 	return name.toLowerCase().split(' ').join('-');
 }
