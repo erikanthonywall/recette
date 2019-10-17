@@ -10,12 +10,19 @@ export default StyleSheet.create({
 	header2: {
 		fontFamily: 'IMFellFrenchCanon-Regular',
 		fontSize: 24,
-		color: 'rgba(0, 0, 0, 0.8)'
+		color: 'rgba(0, 0, 0, 0.8)',
+		marginBottom: 8
 	},
 
 	body: {
-		fontFamily: 'IMFellFrenchCanon-Regular',
-		fontSize: 18,
+		fontSize: 16,
 		color: 'rgba(0, 0, 0, 0.8)'
+	},
+
+	hr: {
+		backgroundColor: 'rgba(0, 0, 0, 0.4)',
+		marginTop: 4,
+		marginBottom: 16,
+		height: 1
 	}
 });

@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import { useRouteMatch } from 'react-router-native';
-import { getRecipeById } from '../../utils';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, View, Text, StyleSheet, Alert } from 'react-native';
+import { useRouteMatch, useHistory } from 'react-router-native';
+import { getRecipeById, deleteRecipeById, convertRecipeNameToId } from '../../utils';
 import { IRecipe } from '../../types';
 import IconButton from '../../components/IconButton/IconButton';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faEdit, faTrashAlt, faShoppingBasket, faCamera } from '@fortawesome/free-solid-svg-icons';
 import Popover from '../../components/Popover/Popover';
 
 import globalStyles from '../../styles';
@@ -21,11 +21,17 @@ const styles = StyleSheet.create({
 	title: {
 		...globalStyles.header1,
 		flex: 1
+	},
+
+	ingredient: {
+		...globalStyles.body,
+		marginBottom: 8
 	}
 });
 
 const Recipe = (() => {
 	const match = useRouteMatch();
+	const history = useHistory();
 	const [recipe, setRecipe] = useState<IRecipe>(null);
 	const [popoverVisible, setPopoverVisible] = useState<boolean>(false);
 	const [popoverLayout, setPopoverLayout] = useState(null);
@@ -48,6 +54,32 @@ const Recipe = (() => {
 		setPopoverLayout(e.nativeEvent.layout);
 	};
 
+	const deleteRecipe = () => {
+		Alert.alert(
+			'',
+			'Are you sure you want to delete this recipe?',
+			[{
+				text: 'Cancel',
+				onPress: () => {},
+				style: 'cancel'
+			}, {
+				text: 'Delete Recipe',
+				onPress: confirmDeleteRecipe
+			}]
+		)
+	};
+
+	const confirmDeleteRecipe = () => {
+		const id = convertRecipeNameToId(recipe.name);
+		deleteRecipeById(id).then((res) => {
+			if (!res.success) {
+				alert(res.message);
+			} else {
+				history.replace('/');
+			}
+		})
+	};
+
 	if (recipe) {
 		return (
 			<View style={{ flex: 1 }}>
@@ -61,13 +93,58 @@ const Recipe = (() => {
 								onPress={() => setPopoverVisible(true)} />
 						</View>
 					</View>
+
+					<View style={globalStyles.hr}></View>
+
+					<Text style={globalStyles.header2}>Ingredients</Text>
+
+					<View>
+						{
+							recipe.ingredients.map((ingredient, i) => {
+								return (
+									<Text style={styles.ingredient}>
+										{ingredient.quantity} {ingredient.ingredient}
+									</Text>
+								)
+							})
+						}
+					</View>
+
+					<Text style={globalStyles.header2}>Steps</Text>
+					
+					<View>
+						{
+							recipe.steps.map((step, i) => {
+								return (
+									<Text style={styles.ingredient}>
+										{i + 1}.) {step}
+									</Text>
+								)
+							})
+						}
+					</View>
+
+					<View style={{ height: 50 }}></View>
+
 				</ScrollView>
 				
 				<Popover
 					actions={[{
-						icon: faEllipsisV,
-						onPress: () => { alert('sup')},
-						text: 'hello'
+						icon: faEdit,
+						onPress: () => { alert('Edit recipe')},
+						text: 'Edit Recipe'
+					}, {
+						icon: faShoppingBasket,
+						onPress: () => { alert('add to shopping list')},
+						text: 'Add to Shopping List'
+					}, {
+						icon: faCamera,
+						onPress: () => { alert('take photo')},
+						text: 'Take Photo'
+					}, {
+						icon: faTrashAlt,
+						onPress: deleteRecipe,
+						text: 'Delete Recipe'
 					}]}
 					visible={popoverVisible}
 					layout={popoverLayout}
