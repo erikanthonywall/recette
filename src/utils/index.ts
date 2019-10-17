@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { IRecipe, IIngredient, IResult } from '../types';
+import { IRecipe, IIngredient, IResult, IShoppingListItem } from '../types';
 import _find from 'lodash/find';
 import _findIndex from 'lodash/findIndex';
 
@@ -17,7 +17,7 @@ export const getRecipes = async () : Promise<Array<IRecipe>> => {
 	}
 }
 
-export const getRecipeById = async (id) : Promise<IRecipe> => {
+export const getRecipeById = async (id: string) : Promise<IRecipe> => {
 	try {
 		const recipes = await getRecipes();
 
@@ -35,7 +35,7 @@ export const getRecipeById = async (id) : Promise<IRecipe> => {
 	}
 }
 
-export const deleteRecipeById = async (id) : Promise<IResult> => {
+export const deleteRecipeById = async (id: string) : Promise<IResult> => {
 	try {
 		const recipes = await getRecipes();
 
@@ -75,6 +75,8 @@ export const saveRecipe = async (recipe : IRecipe) : Promise<IResult> => {
 	try {
 		let recipes = await getRecipes();
 
+		recipe.name = recipe.name.trim();
+
 		const id = convertRecipeNameToId(recipe.name);
 
 		if (_find(recipes, (r => {
@@ -105,10 +107,18 @@ export const saveRecipe = async (recipe : IRecipe) : Promise<IResult> => {
 	}
 }
 
-export const addRecipeToShoppingList = async (id) => {
+export const getShoppingList = async () => {
+	
+}
+
+export const addRecipeToShoppingList = async (id: string) => {
 	
 }
 
 export const convertRecipeNameToId = (name: string) : string => {
-	return name.toLowerCase().split(' ').join('-');
+	return name.toLowerCase().trim().split(' ').join('-');
+}
+
+export const convertIngredientToShoppingListId = () => {
+	
 }

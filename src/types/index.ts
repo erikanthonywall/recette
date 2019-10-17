@@ -13,3 +13,8 @@ export interface IResult {
 	success: boolean,
 	message: string
 }
+
+export interface IShoppingListItem {
+	ingredient: string
+	id: string
+}
